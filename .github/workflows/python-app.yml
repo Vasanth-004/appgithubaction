@@ -1,0 +1,38 @@
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: Python CI
+
+# Trigger events like push and pull_request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Check out code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Set up the environment
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      # 3. Install Dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Run with pytest
+      - name: Test with pytest
+        run: |
+          pytest
